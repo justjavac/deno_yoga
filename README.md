@@ -45,5 +45,5 @@ deno run --allow-ffi --unstable https://deno.land/x/yoga/examples/basic.ts
 
 ## License
 
-Deno Version Manager(dvm) is released under the MIT License. See the bundled
+`deno_yoga` is released under the MIT License. See the bundled
 [LICENSE](./LICENSE) file for details.
