@@ -1,16 +1,4 @@
-# deno_yoga
-
-Deno bindings for [yoga](https://github.com/facebook/yoga), using Deno FFI.
-
-## Usage
-
-flags:
-
-`--allow-ffi`: Requires ffi access to "yogacore.dll", "libyogacore.so",
-"libyogacore.dylib" `--unstable`: FFI is unstable feature
-
-```ts
-import * as Yoga from "https://deno.land/x/yoga/mod.ts";
+import * as Yoga from "../mod.ts";
 
 const root = Yoga.Node.create();
 root.setWidth(500);
@@ -35,15 +23,3 @@ console.log(node1.getComputedLayout());
 // {left: 150, top: 0, width: 100, height: 100}
 console.log(node2.getComputedLayout());
 // {left: 250, top: 0, width: 100, height: 100}
-```
-
-## Examples
-
-```bash
-deno run --allow-ffi --unstable https://deno.land/x/yoga/examples/basic.ts
-```
-
-## License
-
-Deno Version Manager(dvm) is released under the MIT License. See the bundled
-[LICENSE](./LICENSE) file for details.

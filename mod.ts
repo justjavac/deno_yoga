@@ -16,6 +16,16 @@ const lib = Deno.dlopen(getLibPath("yogacore"), {
   YGNodeLayoutGetWidth: { parameters: ["pointer"], result: "f32" },
   YGNodeLayoutGetHeight: { parameters: ["pointer"], result: "f32" },
   YGNodeLayoutGetDirection: { parameters: ["pointer"], result: "i32" },
+  YGNodeStyleSetWidth: { parameters: ["pointer", "f32"], result: "void" },
+  YGNodeStyleSetHeight: { parameters: ["pointer", "f32"], result: "void" },
+  YGNodeStyleSetJustifyContent: {
+    parameters: ["pointer", "i32"],
+    result: "void",
+  },
+  YGNodeInsertChild: {
+    parameters: ["pointer", "pointer", "isize"],
+    result: "void",
+  },
 });
 
 export class Layout {
@@ -39,10 +49,6 @@ export class Layout {
     this.bottom = bottom;
     this.width = width;
     this.height = height;
-  }
-
-  toString(): string {
-    return JSON.stringify(this);
   }
 }
 
@@ -91,6 +97,32 @@ class YogaNode {
 
   getComputedDirection(): C.YogaDirection {
     return lib.symbols.YGNodeLayoutGetDirection(this.#node) as C.YogaDirection;
+  }
+
+  getComputedLayout(): Layout {
+    const left = lib.symbols.YGNodeLayoutGetLeft(this.#node);
+    const right = lib.symbols.YGNodeLayoutGetRight(this.#node);
+    const top = lib.symbols.YGNodeLayoutGetTop(this.#node);
+    const bottom = lib.symbols.YGNodeLayoutGetBottom(this.#node);
+    const width = lib.symbols.YGNodeLayoutGetWidth(this.#node);
+    const height = lib.symbols.YGNodeLayoutGetHeight(this.#node);
+    return new Layout(left, right, top, bottom, width, height);
+  }
+
+  setWidth(width: number) {
+    return lib.symbols.YGNodeStyleSetWidth(this.#node, width);
+  }
+
+  setHeight(height: number) {
+    return lib.symbols.YGNodeStyleSetHeight(this.#node, height);
+  }
+
+  setJustifyContent(justifyContent: C.YogaJustifyContent) {
+    return lib.symbols.YGNodeStyleSetJustifyContent(this.#node, justifyContent);
+  }
+
+  insertChild(child: YogaNode, index: number) {
+    return lib.symbols.YGNodeInsertChild(this.#node, child.#node, index);
   }
 }
 
