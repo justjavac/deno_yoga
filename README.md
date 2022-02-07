@@ -6,8 +6,9 @@ Deno bindings for [yoga](https://github.com/facebook/yoga), using Deno FFI.
 
 flags:
 
-`--allow-ffi`: Requires ffi access to "yogacore.dll", "libyogacore.so",
-"libyogacore.dylib" `--unstable`: FFI is unstable feature
+- `--allow-ffi`: Requires ffi access to "yogacore.dll", "libyogacore.so",
+  "libyogacore.dylib"
+- `--unstable`: FFI is unstable feature
 
 ```ts
 import * as Yoga from "https://deno.land/x/yoga/mod.ts";
