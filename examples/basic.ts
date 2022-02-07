@@ -23,3 +23,5 @@ console.log(node1.getComputedLayout());
 // {left: 150, top: 0, width: 100, height: 100}
 console.log(node2.getComputedLayout());
 // {left: 250, top: 0, width: 100, height: 100}
+
+console.log(root.getHeight());
