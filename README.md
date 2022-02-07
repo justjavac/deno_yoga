@@ -6,8 +6,7 @@ Deno bindings for [yoga](https://github.com/facebook/yoga), using Deno FFI.
 
 flags:
 
-- `--allow-ffi`: Requires ffi access to "yogacore.dll", "libyogacore.so",
-  "libyogacore.dylib"
+- `--allow-ffi`: Requires ffi access to "yogacore.dll", "libyogacore.so", "libyogacore.dylib"
 - `--unstable`: FFI is unstable feature
 
 ```ts
@@ -46,5 +45,4 @@ deno run --allow-ffi --unstable https://deno.land/x/yoga/examples/basic.ts
 
 ## License
 
-`deno_yoga` is released under the MIT License. See the bundled
-[LICENSE](./LICENSE) file for details.
+`deno_yoga` is released under the MIT License. See the bundled [LICENSE](./LICENSE) file for details.

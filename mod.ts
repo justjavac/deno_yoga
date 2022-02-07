@@ -5,10 +5,7 @@ import * as C from "./constants.ts";
 
 const lib = Deno.dlopen(getLibPath("yogacore"), {
   YGNodeNew: { parameters: [], result: "pointer" },
-  YGNodeCalculateLayout: {
-    parameters: ["pointer", "f32", "f32", "i32"],
-    result: "void",
-  },
+  YGNodeCalculateLayout: { parameters: ["pointer", "f32", "f32", "i32"], result: "void" },
   YGNodeLayoutGetLeft: { parameters: ["pointer"], result: "f32" },
   YGNodeLayoutGetTop: { parameters: ["pointer"], result: "f32" },
   YGNodeLayoutGetRight: { parameters: ["pointer"], result: "f32" },
@@ -18,14 +15,10 @@ const lib = Deno.dlopen(getLibPath("yogacore"), {
   YGNodeLayoutGetDirection: { parameters: ["pointer"], result: "i32" },
   YGNodeStyleSetWidth: { parameters: ["pointer", "f32"], result: "void" },
   YGNodeStyleSetHeight: { parameters: ["pointer", "f32"], result: "void" },
-  YGNodeStyleSetJustifyContent: {
-    parameters: ["pointer", "i32"],
-    result: "void",
-  },
-  YGNodeInsertChild: {
-    parameters: ["pointer", "pointer", "isize"],
-    result: "void",
-  },
+  YGNodeStyleSetJustifyContent: { parameters: ["pointer", "i32"], result: "void" },
+  YGNodeInsertChild: { parameters: ["pointer", "pointer", "isize"], result: "void" },
+  YGNodeSetContext: { parameters: ["pointer", "pointer"], result: "void" },
+  YGNodeStyleSetFlexDirection: { parameters: ["pointer", "i32"], result: "void" },
 });
 
 export class Layout {
@@ -35,14 +28,8 @@ export class Layout {
   readonly bottom: number;
   readonly width: number;
   readonly height: number;
-  constructor(
-    left: number,
-    right: number,
-    top: number,
-    bottom: number,
-    width: number,
-    height: number,
-  ) {
+
+  constructor(left: number, right: number, top: number, bottom: number, width: number, height: number) {
     this.left = left;
     this.right = right;
     this.top = top;
@@ -57,13 +44,11 @@ class YogaNode {
 
   private constructor(node: Deno.UnsafePointer) {
     this.#node = node;
+    this.setFlexDirection(C.FLEX_DIRECTION_ROW);
+    lib.symbols.YGNodeSetContext(node, new Deno.UnsafePointer(0n));
   }
 
-  calculateLayout(
-    width?: number,
-    height?: number,
-    direction?: C.YogaDirection,
-  ): void {
+  calculateLayout(width?: number, height?: number, direction?: C.YogaDirection) {
     lib.symbols.YGNodeCalculateLayout(
       this.#node,
       width ?? 0,
@@ -83,6 +68,7 @@ class YogaNode {
   getComputedRight(): number {
     return lib.symbols.YGNodeLayoutGetRight(this.#node);
   }
+
   getComputedBottom(): number {
     return lib.symbols.YGNodeLayoutGetBottom(this.#node);
   }
@@ -119,6 +105,10 @@ class YogaNode {
 
   setJustifyContent(justifyContent: C.YogaJustifyContent) {
     return lib.symbols.YGNodeStyleSetJustifyContent(this.#node, justifyContent);
+  }
+
+  setFlexDirection(flexDirection: C.YogaFlexDirection) {
+    return lib.symbols.YGNodeStyleSetFlexDirection(this.#node, flexDirection);
   }
 
   insertChild(child: YogaNode, index: number) {

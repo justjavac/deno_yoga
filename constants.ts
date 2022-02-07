@@ -143,8 +143,7 @@ export type YogaPositionType =
   | typeof POSITION_TYPE_ABSOLUTE
   | typeof POSITION_TYPE_RELATIVE;
 
-export type YogaExperimentalFeature =
-  typeof EXPERIMENTAL_FEATURE_WEB_FLEX_BASIS;
+export type YogaExperimentalFeature = typeof EXPERIMENTAL_FEATURE_WEB_FLEX_BASIS;
 
 export type YogaMeasureMode =
   | typeof MEASURE_MODE_COUNT
