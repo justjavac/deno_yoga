@@ -24,4 +24,7 @@ jobs:
         run: deno lint
 
       - name: Run deno test
-        run: deno test --allow-ffi --unstable
+        if: matrix.os == 'macOS-latest'
+        run: |
+          curl --fail --location --output lib/libyogacore1.dylib https://github.com/justjavac/yoga.dll/raw/main/lib/libyogacore.dylib
+          deno test --allow-ffi --unstable
