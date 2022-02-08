@@ -1,5 +1,3 @@
-import { Value } from "./Value.ts";
-
 export function getLibPath(name: string) {
   const [libPrefix, libSuffix] = {
     darwin: ["lib", "dylib"],
