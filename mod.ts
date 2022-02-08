@@ -1,6 +1,6 @@
 export * from "./constants.ts";
 
-import { getLibPath, ptr2value } from "./utils.ts";
+import { getLibPath } from "./utils.ts";
 import * as C from "./constants.ts";
 import { Layout } from "./Layout.ts";
 import { Value } from "./Value.ts";
@@ -51,28 +51,28 @@ const lib = Deno.dlopen(getLibPath("yogacore"), {
   YGNodeSetIsReferenceBaseline: { parameters: ["pointer", "i32"], result: "void" },
 
   YGNodeStyleGetPositionType: { parameters: ["pointer"], result: "i32" },
-  YGNodeStyleGetPosition: { parameters: ["pointer", "i32"], result: "pointer" },
+  YGNodeStyleGetPosition: { parameters: ["pointer", "i32"], result: "u64" },
   YGNodeStyleGetAlignContent: { parameters: ["pointer"], result: "i32" },
   YGNodeStyleGetAlignItems: { parameters: ["pointer"], result: "i32" },
   YGNodeStyleGetAlignSelf: { parameters: ["pointer"], result: "i32" },
   YGNodeStyleGetFlexDirection: { parameters: ["pointer"], result: "i32" },
   YGNodeStyleGetFlexWrap: { parameters: ["pointer"], result: "i32" },
   YGNodeStyleGetJustifyContent: { parameters: ["pointer"], result: "i32" },
-  YGNodeStyleGetMargin: { parameters: ["pointer", "i32"], result: "pointer" },
+  YGNodeStyleGetMargin: { parameters: ["pointer", "i32"], result: "u64" },
   YGNodeStyleGetOverflow: { parameters: ["pointer"], result: "i32" },
   YGNodeStyleGetDisplay: { parameters: ["pointer"], result: "i32" },
-  YGNodeStyleGetFlexBasis: { parameters: ["pointer"], result: "pointer" },
+  YGNodeStyleGetFlexBasis: { parameters: ["pointer"], result: "u64" },
   YGNodeStyleGetFlexGrow: { parameters: ["pointer"], result: "f32" },
   YGNodeStyleGetFlexShrink: { parameters: ["pointer"], result: "f32" },
-  YGNodeStyleGetWidth: { parameters: ["pointer"], result: "pointer" },
-  YGNodeStyleGetHeight: { parameters: ["pointer"], result: "pointer" },
-  YGNodeStyleGetMinWidth: { parameters: ["pointer"], result: "pointer" },
-  YGNodeStyleGetMinHeight: { parameters: ["pointer"], result: "pointer" },
-  YGNodeStyleGetMaxWidth: { parameters: ["pointer"], result: "pointer" },
-  YGNodeStyleGetMaxHeight: { parameters: ["pointer"], result: "pointer" },
+  YGNodeStyleGetWidth: { parameters: ["pointer"], result: "u64" },
+  YGNodeStyleGetHeight: { parameters: ["pointer"], result: "u64" },
+  YGNodeStyleGetMinWidth: { parameters: ["pointer"], result: "u64" },
+  YGNodeStyleGetMinHeight: { parameters: ["pointer"], result: "u64" },
+  YGNodeStyleGetMaxWidth: { parameters: ["pointer"], result: "u64" },
+  YGNodeStyleGetMaxHeight: { parameters: ["pointer"], result: "u64" },
   YGNodeStyleGetAspectRatio: { parameters: ["pointer"], result: "f32" },
   YGNodeStyleGetBorder: { parameters: ["pointer", "i32"], result: "f32" },
-  YGNodeStyleGetPadding: { parameters: ["pointer", "i32"], result: "pointer" },
+  YGNodeStyleGetPadding: { parameters: ["pointer", "i32"], result: "u64" },
   YGNodeIsReferenceBaseline: { parameters: ["pointer"], result: "i32" },
 
   YGNodeInsertChild: { parameters: ["pointer", "pointer", "usize"], result: "void" },
@@ -158,7 +158,7 @@ class YogaNode {
   }
 
   getFlexBasis(): number {
-    return ptr2value(lib.symbols.YGNodeStyleGetFlexBasis(this.#node)).value;
+    return Value.from(lib.symbols.YGNodeStyleGetFlexBasis(this.#node)).value;
   }
 
   getFlexDirection(): C.YogaFlexDirection {
@@ -178,7 +178,7 @@ class YogaNode {
   }
 
   getHeight(): Value {
-    return ptr2value(lib.symbols.YGNodeStyleGetHeight(this.#node));
+    return Value.from(lib.symbols.YGNodeStyleGetHeight(this.#node));
   }
 
   getJustifyContent(): C.YogaJustifyContent {
@@ -186,23 +186,23 @@ class YogaNode {
   }
 
   getMargin(edge: C.YogaEdge): Value {
-    return ptr2value(lib.symbols.YGNodeStyleGetMargin(this.#node, edge));
+    return Value.from(lib.symbols.YGNodeStyleGetMargin(this.#node, edge));
   }
 
   getMaxHeight(): Value {
-    return ptr2value(lib.symbols.YGNodeStyleGetMaxHeight(this.#node));
+    return Value.from(lib.symbols.YGNodeStyleGetMaxHeight(this.#node));
   }
 
   getMaxWidth(): Value {
-    return ptr2value(lib.symbols.YGNodeStyleGetMaxWidth(this.#node));
+    return Value.from(lib.symbols.YGNodeStyleGetMaxWidth(this.#node));
   }
 
   getMinHeight(): Value {
-    return ptr2value(lib.symbols.YGNodeStyleGetMinHeight(this.#node));
+    return Value.from(lib.symbols.YGNodeStyleGetMinHeight(this.#node));
   }
 
   getMinWidth(): Value {
-    return ptr2value(lib.symbols.YGNodeStyleGetMinWidth(this.#node));
+    return Value.from(lib.symbols.YGNodeStyleGetMinWidth(this.#node));
   }
 
   getOverflow(): C.YogaOverflow {
@@ -210,7 +210,7 @@ class YogaNode {
   }
 
   getPadding(edge: C.YogaEdge): Value {
-    return ptr2value(lib.symbols.YGNodeStyleGetPadding(this.#node, edge));
+    return Value.from(lib.symbols.YGNodeStyleGetPadding(this.#node, edge));
   }
 
   getParent(): YogaNode | null {
@@ -224,7 +224,7 @@ class YogaNode {
   }
 
   getPosition(edge: C.YogaEdge): Value {
-    return ptr2value(lib.symbols.YGNodeStyleGetPosition(this.#node, edge));
+    return Value.from(lib.symbols.YGNodeStyleGetPosition(this.#node, edge));
   }
 
   getPositionType(): C.YogaPositionType {
@@ -232,7 +232,7 @@ class YogaNode {
   }
 
   getWidth(): Value {
-    return ptr2value(lib.symbols.YGNodeStyleGetWidth(this.#node));
+    return Value.from(lib.symbols.YGNodeStyleGetWidth(this.#node));
   }
 
   insertChild(child: YogaNode, index: number): void {
