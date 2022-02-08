@@ -4,6 +4,7 @@ const root = Yoga.Node.create();
 root.setWidth(500);
 root.setHeight(300);
 root.setJustifyContent(Yoga.JUSTIFY_CENTER);
+root.setFlexDirection(Yoga.FLEX_DIRECTION_ROW);
 
 const node1 = Yoga.Node.create();
 node1.setWidth(100);

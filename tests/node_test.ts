@@ -1,4 +1,4 @@
-import { assertEquals } from "https://deno.land/std/testing/asserts.ts";
+import { assertEquals } from "./deps.ts";
 import * as Yoga from "../mod.ts";
 
 Deno.test("empty node", () => {

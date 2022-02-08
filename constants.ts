@@ -1,5 +1,7 @@
 // copy from https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/yoga-layout/index.d.ts MIT license
 
+export const UNDEFINED = 0;
+
 export const ALIGN_AUTO = 0;
 export const ALIGN_COUNT = 8;
 export const ALIGN_FLEX_START = 1;

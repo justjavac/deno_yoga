@@ -7,8 +7,18 @@ import { Value } from "./Value.ts";
 
 const lib = Deno.dlopen(getLibPath("yogacore"), {
   YGNodeNew: { parameters: [], result: "pointer" },
+  YGNodeNewWithConfig: { parameters: ["pointer"], result: "pointer" },
   YGNodeFree: { parameters: ["pointer"], result: "void" },
   YGNodeReset: { parameters: ["pointer"], result: "void" },
+
+  YGNodeSetContext: { parameters: ["pointer", "pointer"], result: "void" },
+  YGNodeGetContext: { parameters: ["pointer"], result: "pointer" },
+
+  YGConfigNew: { parameters: [], result: "pointer" },
+  YGConfigFree: { parameters: ["pointer"], result: "void" },
+  YGConfigSetExperimentalFeatureEnabled: { parameters: ["pointer", "i32", "i32"], result: "void" },
+  YGConfigSetPointScaleFactor: { parameters: ["pointer", "f32"], result: "void" },
+  // YGConfigIsExperimentalFeatureEnabled: { parameters: ["pointer", "i32"], result: "void" },
 
   YGNodeCopyStyle: { parameters: ["pointer", "pointer"], result: "void" },
   YGNodeStyleSetPositionType: { parameters: ["pointer", "i32"], result: "void" },
@@ -97,17 +107,27 @@ const lib = Deno.dlopen(getLibPath("yogacore"), {
   YGNodeLayoutGetMargin: { parameters: ["pointer", "i32"], result: "f32" },
   YGNodeLayoutGetBorder: { parameters: ["pointer", "i32"], result: "f32" },
   YGNodeLayoutGetPadding: { parameters: ["pointer", "i32"], result: "f32" },
-
-  YGNodeSetContext: { parameters: ["pointer", "pointer"], result: "void" },
 });
 
-class YogaNode {
+const nodeContext = new Map<BigInt, YogaNode>();
+
+export class YogaNode {
   #node: Deno.UnsafePointer;
 
-  private constructor(node: Deno.UnsafePointer) {
-    this.#node = node;
-    this.setFlexDirection(C.FLEX_DIRECTION_ROW);
+  private constructor(config?: YogaConfig) {
+    this.#node = config ? lib.symbols.YGNodeNewWithConfig(config.ptr) : lib.symbols.YGNodeNew();
+    // this.setFlexDirection(C.FLEX_DIRECTION_ROW);
     // lib.symbols.YGNodeSetContext(node, new Deno.UnsafePointer(0n));
+    nodeContext.set(this.#node.value, this);
+  }
+
+  private static fromYGNode(node: Deno.UnsafePointer): YogaNode {
+    // lib.symbols.YGNodeGetContext(node);
+    return nodeContext.get(node.value)!;
+  }
+
+  get ptr(): Deno.UnsafePointer {
+    return this.#node;
   }
 
   copyStyle(other: YogaNode): void {
@@ -120,7 +140,7 @@ class YogaNode {
 
   freeRecursive(): void {
     for (let t = 0, T = this.getChildCount(); t < T; ++t) {
-      this.getChild(0).freeRecursive();
+      this.getChild(0)!.freeRecursive();
     }
     this.free();
   }
@@ -145,8 +165,14 @@ class YogaNode {
     return lib.symbols.YGNodeStyleGetBorder(this.#node, edge);
   }
 
-  getChild(index: number): YogaNode {
-    return new YogaNode(lib.symbols.YGNodeGetChild(this.#node, index));
+  getChild(index: number): YogaNode | null {
+    const ptr = lib.symbols.YGNodeGetChild(this.#node, index);
+
+    if (ptr.value === 0n) {
+      return null;
+    }
+
+    return YogaNode.fromYGNode(ptr);
   }
 
   getChildCount(): number {
@@ -220,7 +246,7 @@ class YogaNode {
       return null;
     }
 
-    return new YogaNode(ptr);
+    return YogaNode.fromYGNode(ptr);
   }
 
   getPosition(edge: C.YogaEdge): Value {
@@ -448,13 +474,8 @@ class YogaNode {
     // TODO
   }
 
-  calculateLayout(width?: number, height?: number, direction?: C.YogaDirection) {
-    lib.symbols.YGNodeCalculateLayout(
-      this.#node,
-      width ?? 0,
-      height ?? 0,
-      direction ?? C.DIRECTION_LTR,
-    );
+  calculateLayout(width = NaN, height = NaN, direction: C.YogaDirection = C.DIRECTION_LTR) {
+    lib.symbols.YGNodeCalculateLayout(this.#node, width, height, direction);
   }
 
   getComputedLeft(): number {
@@ -504,9 +525,69 @@ class YogaNode {
   }
 }
 
-export class Node {
-  static create(): YogaNode {
+export const Node = {
+  create(config?: YogaConfig): YogaNode {
+    return config ? this.createWithConfig(config) : this.createDefault();
+  },
+
+  createDefault(): YogaNode {
     // deno-lint-ignore no-explicit-any
-    return new (YogaNode as any)(lib.symbols.YGNodeNew());
+    return new (YogaNode as any)();
+  },
+
+  createWithConfig(config: YogaConfig): YogaNode {
+    // deno-lint-ignore no-explicit-any
+    return new (YogaNode as any)(config);
+  },
+
+  destroy(_node: YogaNode): void {
+    // return lib.symbols.YGNodeFree(node.#node);
+  },
+};
+
+export class YogaConfig {
+  #config: Deno.UnsafePointer;
+
+  private constructor(config: Deno.UnsafePointer) {
+    this.#config = config;
   }
+
+  get ptr(): Deno.UnsafePointer {
+    return this.#config;
+  }
+
+  isExperimentalFeatureEnabled(_feature: C.YogaExperimentalFeature): boolean {
+    // return Boolean(lib.symbols.YGConfigIsExperimentalFeatureEnabled(this.#config, feature));
+    return false;
+  }
+
+  setExperimentalFeatureEnabled(
+    feature: C.YogaExperimentalFeature,
+    enabled: boolean,
+  ): void {
+    return lib.symbols.YGConfigSetExperimentalFeatureEnabled(this.#config, feature, Number(enabled));
+  }
+
+  setPointScaleFactor(factor: number): void {
+    return lib.symbols.YGConfigSetPointScaleFactor(this.#config, factor);
+  }
+
+  free() {
+    return lib.symbols.YGConfigFree(this.#config);
+  }
+}
+
+export const Config = {
+  create() {
+    // deno-lint-ignore no-explicit-any
+    return new (YogaConfig as any)(lib.symbols.YGConfigNew());
+  },
+
+  destroy(config: YogaConfig) {
+    return config.free();
+  },
+};
+
+export function getInstanceCount(): number {
+  return 1;
 }
