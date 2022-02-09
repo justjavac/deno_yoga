@@ -3,5 +3,12 @@
     "options": {
       "lineWidth": 120
     }
+  },
+  "lint": {
+    "files": {
+      "exclude": [
+        "tests"
+      ]
+    }
   }
 }
