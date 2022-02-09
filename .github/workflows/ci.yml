@@ -34,3 +34,9 @@ jobs:
         run: |
           curl --fail --location --output lib/libyogacore.so https://github.com/justjavac/yoga.dll/raw/main/lib/libyogacore.so
           deno test --allow-ffi --unstable
+
+      - name: Run deno test
+        if: matrix.os == 'windows-latest'
+        run: |
+          Invoke-WebRequest https://github.com/justjavac/yoga.dll/raw/main/lib/yogacore.dll -OutFile lib/libyogacore.so -UseBasicParsing
+          deno test --allow-ffi --unstable
