@@ -60,7 +60,7 @@ deno run --allow-ffi --unstable https://deno.land/x/yoga/examples/basic.ts
 - computed_margin_test 1/1 ✅
 - computed_padding_test 1/1 ✅
 - dimension_test 2/2 ✅
-- irtied_test 0/4
+- dirtied_test 0/4
 - display_test 6/6 ✅
 - flex_direction_test 6/6 ✅
 - flex_test 10/10 ✅
