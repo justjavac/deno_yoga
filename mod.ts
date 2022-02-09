@@ -5,110 +5,113 @@ import * as C from "./constants.ts";
 import { Layout } from "./Layout.ts";
 import { Value } from "./Value.ts";
 
-const lib = Deno.dlopen(getLibPath("yogacore"), {
-  YGNodeNew: { parameters: [], result: "pointer" },
-  YGNodeNewWithConfig: { parameters: ["pointer"], result: "pointer" },
-  YGNodeFree: { parameters: ["pointer"], result: "void" },
-  YGNodeReset: { parameters: ["pointer"], result: "void" },
+const lib = Deno.dlopen(
+  getLibPath("yogacore"),
+  {
+    YGNodeNew: { parameters: [], result: "pointer" },
+    YGNodeNewWithConfig: { parameters: ["pointer"], result: "pointer" },
+    YGNodeFree: { parameters: ["pointer"], result: "void" },
+    YGNodeReset: { parameters: ["pointer"], result: "void" },
 
-  YGNodeSetContext: { parameters: ["pointer", "pointer"], result: "void" },
-  YGNodeGetContext: { parameters: ["pointer"], result: "pointer" },
+    YGNodeSetContext: { parameters: ["pointer", "pointer"], result: "void" },
+    YGNodeGetContext: { parameters: ["pointer"], result: "pointer" },
 
-  YGConfigNew: { parameters: [], result: "pointer" },
-  YGConfigFree: { parameters: ["pointer"], result: "void" },
-  YGConfigSetExperimentalFeatureEnabled: { parameters: ["pointer", "i32", "i32"], result: "void" },
-  YGConfigSetPointScaleFactor: { parameters: ["pointer", "f32"], result: "void" },
-  // YGConfigIsExperimentalFeatureEnabled: { parameters: ["pointer", "i32"], result: "void" },
+    YGConfigNew: { parameters: [], result: "pointer" },
+    YGConfigFree: { parameters: ["pointer"], result: "void" },
+    YGConfigSetExperimentalFeatureEnabled: { parameters: ["pointer", "i32", "i32"], result: "void" },
+    YGConfigSetPointScaleFactor: { parameters: ["pointer", "f32"], result: "void" },
+    // YGConfigIsExperimentalFeatureEnabled: { parameters: ["pointer", "i32"], result: "void" },
 
-  YGNodeCopyStyle: { parameters: ["pointer", "pointer"], result: "void" },
-  YGNodeStyleSetPositionType: { parameters: ["pointer", "i32"], result: "void" },
-  YGNodeStyleSetPosition: { parameters: ["pointer", "i32", "i32"], result: "void" },
-  YGNodeStyleSetPositionPercent: { parameters: ["pointer", "i32", "i32"], result: "void" },
-  YGNodeStyleSetAlignContent: { parameters: ["pointer", "i32"], result: "void" },
-  YGNodeStyleSetAlignItems: { parameters: ["pointer", "i32"], result: "void" },
-  YGNodeStyleSetAlignSelf: { parameters: ["pointer", "i32"], result: "void" },
-  YGNodeStyleSetFlexDirection: { parameters: ["pointer", "i32"], result: "void" },
-  YGNodeStyleSetFlexWrap: { parameters: ["pointer", "i32"], result: "void" },
-  YGNodeStyleSetJustifyContent: { parameters: ["pointer", "i32"], result: "void" },
-  YGNodeStyleSetMargin: { parameters: ["pointer", "i32", "i32"], result: "void" },
-  YGNodeStyleSetMarginPercent: { parameters: ["pointer", "i32", "f32"], result: "void" },
-  YGNodeStyleSetMarginAuto: { parameters: ["pointer", "i32"], result: "void" },
-  YGNodeStyleSetOverflow: { parameters: ["pointer", "i32"], result: "void" },
-  YGNodeStyleSetDisplay: { parameters: ["pointer", "i32"], result: "void" },
-  YGNodeStyleSetFlex: { parameters: ["pointer", "f32"], result: "void" },
-  YGNodeStyleSetFlexBasis: { parameters: ["pointer", "f32"], result: "void" },
-  YGNodeStyleSetFlexBasisPercent: { parameters: ["pointer", "f32"], result: "void" },
-  YGNodeStyleSetFlexGrow: { parameters: ["pointer", "f32"], result: "void" },
-  YGNodeStyleSetFlexShrink: { parameters: ["pointer", "f32"], result: "void" },
-  YGNodeStyleSetWidth: { parameters: ["pointer", "f32"], result: "void" },
-  YGNodeStyleSetWidthPercent: { parameters: ["pointer", "f32"], result: "void" },
-  YGNodeStyleSetWidthAuto: { parameters: ["pointer"], result: "void" },
-  YGNodeStyleSetHeight: { parameters: ["pointer", "f32"], result: "void" },
-  YGNodeStyleSetHeightPercent: { parameters: ["pointer", "f32"], result: "void" },
-  YGNodeStyleSetHeightAuto: { parameters: ["pointer"], result: "void" },
-  YGNodeStyleSetMinWidth: { parameters: ["pointer", "f32"], result: "void" },
-  YGNodeStyleSetMinWidthPercent: { parameters: ["pointer", "f32"], result: "void" },
-  YGNodeStyleSetMinHeight: { parameters: ["pointer", "f32"], result: "void" },
-  YGNodeStyleSetMinHeightPercent: { parameters: ["pointer", "f32"], result: "void" },
-  YGNodeStyleSetMaxWidth: { parameters: ["pointer", "f32"], result: "void" },
-  YGNodeStyleSetMaxWidthPercent: { parameters: ["pointer", "f32"], result: "void" },
-  YGNodeStyleSetMaxHeight: { parameters: ["pointer", "f32"], result: "void" },
-  YGNodeStyleSetMaxHeightPercent: { parameters: ["pointer", "f32"], result: "void" },
-  YGNodeStyleSetAspectRatio: { parameters: ["pointer", "f32"], result: "void" },
-  YGNodeStyleSetBorder: { parameters: ["pointer", "i32", "f32"], result: "void" },
-  YGNodeStyleSetPadding: { parameters: ["pointer", "i32", "f32"], result: "void" },
-  YGNodeStyleSetPaddingPercent: { parameters: ["pointer", "i32", "f32"], result: "void" },
-  YGNodeSetIsReferenceBaseline: { parameters: ["pointer", "i32"], result: "void" },
+    YGNodeCopyStyle: { parameters: ["pointer", "pointer"], result: "void" },
+    YGNodeStyleSetPositionType: { parameters: ["pointer", "i32"], result: "void" },
+    YGNodeStyleSetPosition: { parameters: ["pointer", "i32", "i32"], result: "void" },
+    YGNodeStyleSetPositionPercent: { parameters: ["pointer", "i32", "i32"], result: "void" },
+    YGNodeStyleSetAlignContent: { parameters: ["pointer", "i32"], result: "void" },
+    YGNodeStyleSetAlignItems: { parameters: ["pointer", "i32"], result: "void" },
+    YGNodeStyleSetAlignSelf: { parameters: ["pointer", "i32"], result: "void" },
+    YGNodeStyleSetFlexDirection: { parameters: ["pointer", "i32"], result: "void" },
+    YGNodeStyleSetFlexWrap: { parameters: ["pointer", "i32"], result: "void" },
+    YGNodeStyleSetJustifyContent: { parameters: ["pointer", "i32"], result: "void" },
+    YGNodeStyleSetMargin: { parameters: ["pointer", "i32", "i32"], result: "void" },
+    YGNodeStyleSetMarginPercent: { parameters: ["pointer", "i32", "f32"], result: "void" },
+    YGNodeStyleSetMarginAuto: { parameters: ["pointer", "i32"], result: "void" },
+    YGNodeStyleSetOverflow: { parameters: ["pointer", "i32"], result: "void" },
+    YGNodeStyleSetDisplay: { parameters: ["pointer", "i32"], result: "void" },
+    YGNodeStyleSetFlex: { parameters: ["pointer", "f32"], result: "void" },
+    YGNodeStyleSetFlexBasis: { parameters: ["pointer", "f32"], result: "void" },
+    YGNodeStyleSetFlexBasisPercent: { parameters: ["pointer", "f32"], result: "void" },
+    YGNodeStyleSetFlexGrow: { parameters: ["pointer", "f32"], result: "void" },
+    YGNodeStyleSetFlexShrink: { parameters: ["pointer", "f32"], result: "void" },
+    YGNodeStyleSetWidth: { parameters: ["pointer", "f32"], result: "void" },
+    YGNodeStyleSetWidthPercent: { parameters: ["pointer", "f32"], result: "void" },
+    YGNodeStyleSetWidthAuto: { parameters: ["pointer"], result: "void" },
+    YGNodeStyleSetHeight: { parameters: ["pointer", "f32"], result: "void" },
+    YGNodeStyleSetHeightPercent: { parameters: ["pointer", "f32"], result: "void" },
+    YGNodeStyleSetHeightAuto: { parameters: ["pointer"], result: "void" },
+    YGNodeStyleSetMinWidth: { parameters: ["pointer", "f32"], result: "void" },
+    YGNodeStyleSetMinWidthPercent: { parameters: ["pointer", "f32"], result: "void" },
+    YGNodeStyleSetMinHeight: { parameters: ["pointer", "f32"], result: "void" },
+    YGNodeStyleSetMinHeightPercent: { parameters: ["pointer", "f32"], result: "void" },
+    YGNodeStyleSetMaxWidth: { parameters: ["pointer", "f32"], result: "void" },
+    YGNodeStyleSetMaxWidthPercent: { parameters: ["pointer", "f32"], result: "void" },
+    YGNodeStyleSetMaxHeight: { parameters: ["pointer", "f32"], result: "void" },
+    YGNodeStyleSetMaxHeightPercent: { parameters: ["pointer", "f32"], result: "void" },
+    YGNodeStyleSetAspectRatio: { parameters: ["pointer", "f32"], result: "void" },
+    YGNodeStyleSetBorder: { parameters: ["pointer", "i32", "f32"], result: "void" },
+    YGNodeStyleSetPadding: { parameters: ["pointer", "i32", "f32"], result: "void" },
+    YGNodeStyleSetPaddingPercent: { parameters: ["pointer", "i32", "f32"], result: "void" },
+    YGNodeSetIsReferenceBaseline: { parameters: ["pointer", "i32"], result: "void" },
 
-  YGNodeStyleGetPositionType: { parameters: ["pointer"], result: "i32" },
-  YGNodeStyleGetPosition: { parameters: ["pointer", "i32"], result: "u64" },
-  YGNodeStyleGetAlignContent: { parameters: ["pointer"], result: "i32" },
-  YGNodeStyleGetAlignItems: { parameters: ["pointer"], result: "i32" },
-  YGNodeStyleGetAlignSelf: { parameters: ["pointer"], result: "i32" },
-  YGNodeStyleGetFlexDirection: { parameters: ["pointer"], result: "i32" },
-  YGNodeStyleGetFlexWrap: { parameters: ["pointer"], result: "i32" },
-  YGNodeStyleGetJustifyContent: { parameters: ["pointer"], result: "i32" },
-  YGNodeStyleGetMargin: { parameters: ["pointer", "i32"], result: "u64" },
-  YGNodeStyleGetOverflow: { parameters: ["pointer"], result: "i32" },
-  YGNodeStyleGetDisplay: { parameters: ["pointer"], result: "i32" },
-  YGNodeStyleGetFlexBasis: { parameters: ["pointer"], result: "u64" },
-  YGNodeStyleGetFlexGrow: { parameters: ["pointer"], result: "f32" },
-  YGNodeStyleGetFlexShrink: { parameters: ["pointer"], result: "f32" },
-  YGNodeStyleGetWidth: { parameters: ["pointer"], result: "u64" },
-  YGNodeStyleGetHeight: { parameters: ["pointer"], result: "u64" },
-  YGNodeStyleGetMinWidth: { parameters: ["pointer"], result: "u64" },
-  YGNodeStyleGetMinHeight: { parameters: ["pointer"], result: "u64" },
-  YGNodeStyleGetMaxWidth: { parameters: ["pointer"], result: "u64" },
-  YGNodeStyleGetMaxHeight: { parameters: ["pointer"], result: "u64" },
-  YGNodeStyleGetAspectRatio: { parameters: ["pointer"], result: "f32" },
-  YGNodeStyleGetBorder: { parameters: ["pointer", "i32"], result: "f32" },
-  YGNodeStyleGetPadding: { parameters: ["pointer", "i32"], result: "u64" },
-  YGNodeIsReferenceBaseline: { parameters: ["pointer"], result: "i32" },
+    YGNodeStyleGetPositionType: { parameters: ["pointer"], result: "i32" },
+    YGNodeStyleGetPosition: { parameters: ["pointer", "i32"], result: "u64" },
+    YGNodeStyleGetAlignContent: { parameters: ["pointer"], result: "i32" },
+    YGNodeStyleGetAlignItems: { parameters: ["pointer"], result: "i32" },
+    YGNodeStyleGetAlignSelf: { parameters: ["pointer"], result: "i32" },
+    YGNodeStyleGetFlexDirection: { parameters: ["pointer"], result: "i32" },
+    YGNodeStyleGetFlexWrap: { parameters: ["pointer"], result: "i32" },
+    YGNodeStyleGetJustifyContent: { parameters: ["pointer"], result: "i32" },
+    YGNodeStyleGetMargin: { parameters: ["pointer", "i32"], result: "u64" },
+    YGNodeStyleGetOverflow: { parameters: ["pointer"], result: "i32" },
+    YGNodeStyleGetDisplay: { parameters: ["pointer"], result: "i32" },
+    YGNodeStyleGetFlexBasis: { parameters: ["pointer"], result: "u64" },
+    YGNodeStyleGetFlexGrow: { parameters: ["pointer"], result: "f32" },
+    YGNodeStyleGetFlexShrink: { parameters: ["pointer"], result: "f32" },
+    YGNodeStyleGetWidth: { parameters: ["pointer"], result: "u64" },
+    YGNodeStyleGetHeight: { parameters: ["pointer"], result: "u64" },
+    YGNodeStyleGetMinWidth: { parameters: ["pointer"], result: "u64" },
+    YGNodeStyleGetMinHeight: { parameters: ["pointer"], result: "u64" },
+    YGNodeStyleGetMaxWidth: { parameters: ["pointer"], result: "u64" },
+    YGNodeStyleGetMaxHeight: { parameters: ["pointer"], result: "u64" },
+    YGNodeStyleGetAspectRatio: { parameters: ["pointer"], result: "f32" },
+    YGNodeStyleGetBorder: { parameters: ["pointer", "i32"], result: "f32" },
+    YGNodeStyleGetPadding: { parameters: ["pointer", "i32"], result: "u64" },
+    YGNodeIsReferenceBaseline: { parameters: ["pointer"], result: "i32" },
 
-  YGNodeInsertChild: { parameters: ["pointer", "pointer", "usize"], result: "void" },
-  YGNodeRemoveChild: { parameters: ["pointer", "pointer"], result: "void" },
-  YGNodeGetChildCount: { parameters: ["pointer"], result: "usize" },
-  YGNodeGetParent: { parameters: ["pointer"], result: "pointer" },
-  YGNodeGetChild: { parameters: ["pointer", "usize"], result: "pointer" },
+    YGNodeInsertChild: { parameters: ["pointer", "pointer", "usize"], result: "void" },
+    YGNodeRemoveChild: { parameters: ["pointer", "pointer"], result: "void" },
+    YGNodeGetChildCount: { parameters: ["pointer"], result: "usize" },
+    YGNodeGetParent: { parameters: ["pointer"], result: "pointer" },
+    YGNodeGetChild: { parameters: ["pointer", "usize"], result: "pointer" },
 
-  YGNodeSetMeasureFunc: { parameters: ["pointer", "pointer"], result: "void" },
-  YGNodeSetDirtiedFunc: { parameters: ["pointer", "pointer"], result: "void" },
+    YGNodeSetMeasureFunc: { parameters: ["pointer", "pointer"], result: "void" },
+    YGNodeSetDirtiedFunc: { parameters: ["pointer", "pointer"], result: "void" },
 
-  YGNodeMarkDirty: { parameters: ["pointer"], result: "void" },
-  YGNodeIsDirty: { parameters: ["pointer"], result: "i32" },
+    YGNodeMarkDirty: { parameters: ["pointer"], result: "void" },
+    YGNodeIsDirty: { parameters: ["pointer"], result: "i32" },
 
-  YGNodeCalculateLayout: { parameters: ["pointer", "f32", "f32", "i32"], result: "void" },
-  YGNodeCalculateLayoutWithMagicNAN: { parameters: ["pointer", "f32", "f32", "i32"], result: "void" },
-  YGNodeLayoutGetLeft: { parameters: ["pointer"], result: "f32" },
-  YGNodeLayoutGetRight: { parameters: ["pointer"], result: "f32" },
-  YGNodeLayoutGetTop: { parameters: ["pointer"], result: "f32" },
-  YGNodeLayoutGetBottom: { parameters: ["pointer"], result: "f32" },
-  YGNodeLayoutGetWidth: { parameters: ["pointer"], result: "f32" },
-  YGNodeLayoutGetHeight: { parameters: ["pointer"], result: "f32" },
-  YGNodeLayoutGetMargin: { parameters: ["pointer", "i32"], result: "f32" },
-  YGNodeLayoutGetBorder: { parameters: ["pointer", "i32"], result: "f32" },
-  YGNodeLayoutGetPadding: { parameters: ["pointer", "i32"], result: "f32" },
-});
+    YGNodeCalculateLayout: { parameters: ["pointer", "f32", "f32", "i32"], result: "void" },
+    YGNodeCalculateLayoutWithMagicNAN: { parameters: ["pointer", "f32", "f32", "i32"], result: "void" },
+    YGNodeLayoutGetLeft: { parameters: ["pointer"], result: "f32" },
+    YGNodeLayoutGetRight: { parameters: ["pointer"], result: "f32" },
+    YGNodeLayoutGetTop: { parameters: ["pointer"], result: "f32" },
+    YGNodeLayoutGetBottom: { parameters: ["pointer"], result: "f32" },
+    YGNodeLayoutGetWidth: { parameters: ["pointer"], result: "f32" },
+    YGNodeLayoutGetHeight: { parameters: ["pointer"], result: "f32" },
+    YGNodeLayoutGetMargin: { parameters: ["pointer", "i32"], result: "f32" },
+    YGNodeLayoutGetBorder: { parameters: ["pointer", "i32"], result: "f32" },
+    YGNodeLayoutGetPadding: { parameters: ["pointer", "i32"], result: "f32" },
+  } as const,
+);
 
 const nodeContext = new Map<BigInt, YogaNode>();
 
@@ -132,11 +135,11 @@ export class YogaNode {
   }
 
   copyStyle(other: YogaNode): void {
-    return lib.symbols.YGNodeCopyStyle(other.#node);
+    lib.symbols.YGNodeCopyStyle(this.#node, other.#node);
   }
 
   free(): void {
-    return lib.symbols.YGNodeFree(this.#node);
+    lib.symbols.YGNodeFree(this.#node);
   }
 
   freeRecursive(): void {
@@ -263,7 +266,7 @@ export class YogaNode {
   }
 
   insertChild(child: YogaNode, index: number): void {
-    return lib.symbols.YGNodeInsertChild(this.#node, child.#node, index);
+    lib.symbols.YGNodeInsertChild(this.#node, child.#node, index);
   }
 
   isDirty(): boolean {
@@ -271,125 +274,111 @@ export class YogaNode {
   }
 
   markDirty(): void {
-    return lib.symbols.YGNodeMarkDirty(this.#node);
+    lib.symbols.YGNodeMarkDirty(this.#node);
   }
 
   removeChild(child: YogaNode): void {
-    return lib.symbols.YGNodeRemoveChild(this.#node, child.#node);
+    lib.symbols.YGNodeRemoveChild(this.#node, child.#node);
   }
 
   reset(): void {
-    return lib.symbols.YGNodeReset(this.#node);
+    lib.symbols.YGNodeReset(this.#node);
   }
 
   setAlignContent(alignContent: C.YogaAlign): void {
-    return lib.symbols.YGNodeStyleSetAlignContent(this.#node, alignContent);
+    lib.symbols.YGNodeStyleSetAlignContent(this.#node, alignContent);
   }
 
   setAlignItems(alignItems: C.YogaAlign): void {
-    return lib.symbols.YGNodeStyleSetAlignItems(this.#node, alignItems);
+    lib.symbols.YGNodeStyleSetAlignItems(this.#node, alignItems);
   }
 
   setAlignSelf(alignSelf: C.YogaAlign): void {
-    return lib.symbols.YGNodeStyleSetAlignSelf(this.#node, alignSelf);
+    lib.symbols.YGNodeStyleSetAlignSelf(this.#node, alignSelf);
   }
 
   setAspectRatio(aspectRatio: number): void {
-    return lib.symbols.YGNodeStyleSetAspectRatio(this.#node, aspectRatio);
+    lib.symbols.YGNodeStyleSetAspectRatio(this.#node, aspectRatio);
   }
 
   setBorder(edge: C.YogaEdge, borderWidth: number): void {
-    return lib.symbols.YGNodeStyleSetBorder(this.#node, edge, borderWidth);
+    lib.symbols.YGNodeStyleSetBorder(this.#node, edge, borderWidth);
   }
 
   setDisplay(display: C.YogaDisplay): void {
-    return lib.symbols.YGNodeStyleSetDisplay(this.#node, display);
+    lib.symbols.YGNodeStyleSetDisplay(this.#node, display);
   }
 
   setFlex(flex: number): void {
-    return lib.symbols.YGNodeStyleSetFlex(this.#node, flex);
+    lib.symbols.YGNodeStyleSetFlex(this.#node, flex);
   }
 
   setFlexBasis(flexBasis: number | string): void {
-    if (typeof flexBasis === "number") {
-      return lib.symbols.YGNodeStyleSetFlexBasis(this.#node, flexBasis);
-    }
-
-    // else
+    this.#setValueAndUnit("FlexBasis", flexBasis);
   }
 
   setFlexBasisPercent(flexBasis: number): void {
-    return lib.symbols.YGNodeStyleSetFlexBasisPercent(this.#node, flexBasis);
+    lib.symbols.YGNodeStyleSetFlexBasisPercent(this.#node, flexBasis);
   }
 
   setFlexDirection(flexDirection: C.YogaFlexDirection): void {
-    return lib.symbols.YGNodeStyleSetFlexDirection(this.#node, flexDirection);
+    lib.symbols.YGNodeStyleSetFlexDirection(this.#node, flexDirection);
   }
 
   setFlexGrow(flexGrow: number): void {
-    return lib.symbols.YGNodeStyleSetFlexGrow(this.#node, flexGrow);
+    lib.symbols.YGNodeStyleSetFlexGrow(this.#node, flexGrow);
   }
 
   setFlexShrink(flexShrink: number): void {
-    return lib.symbols.YGNodeStyleSetFlexShrink(this.#node, flexShrink);
+    lib.symbols.YGNodeStyleSetFlexShrink(this.#node, flexShrink);
   }
 
   setFlexWrap(flexWrap: C.YogaFlexWrap): void {
-    return lib.symbols.YGNodeStyleSetFlexWrap(this.#node, flexWrap);
+    lib.symbols.YGNodeStyleSetFlexWrap(this.#node, flexWrap);
   }
 
   setHeight(height: number | string): void {
-    if (typeof height === "number") {
-      return lib.symbols.YGNodeStyleSetHeight(this.#node, height);
-    }
-
-    // else
+    this.#setValueAndUnit("Height", height);
   }
 
   setHeightAuto(): void {
-    return lib.symbols.YGNodeStyleSetHeightAuto(this.#node);
+    lib.symbols.YGNodeStyleSetHeightAuto(this.#node);
   }
 
   setHeightPercent(height: number): void {
-    return lib.symbols.YGNodeStyleSetHeightPercent(this.#node, height);
+    lib.symbols.YGNodeStyleSetHeightPercent(this.#node, height);
   }
 
   setJustifyContent(justifyContent: C.YogaJustifyContent): void {
-    return lib.symbols.YGNodeStyleSetJustifyContent(this.#node, justifyContent);
+    lib.symbols.YGNodeStyleSetJustifyContent(this.#node, justifyContent);
   }
 
   setMargin(edge: C.YogaEdge, margin: number | string): void {
-    if (typeof margin === "number") {
-      return lib.symbols.YGNodeStyleSetMargin(this.#node, edge, margin);
-    }
-    // else
+    this.#setValueAndUnit("Margin", edge), margin;
   }
 
   setMarginAuto(edge: C.YogaEdge): void {
-    return lib.symbols.YGNodeStyleSetMarginAuto(this.#node, edge);
+    lib.symbols.YGNodeStyleSetMarginAuto(this.#node, edge);
   }
 
   setMarginPercent(edge: C.YogaEdge, margin: number): void {
-    return lib.symbols.YGNodeStyleSetMarginPercent(this.#node, edge, margin);
+    lib.symbols.YGNodeStyleSetMarginPercent(this.#node, edge, margin);
   }
 
   setMaxHeight(maxHeight: number | string): void {
-    if (typeof maxHeight === "number") {
-      return lib.symbols.YGNodeStyleSetMaxHeight(this.#node, maxHeight);
-    }
-    // else
+    this.#setValueAndUnit("MaxHeight", maxHeight);
   }
+
   setMaxHeightPercent(maxHeight: number): void {
-    return lib.symbols.YGNodeStyleSetMaxHeightPercent(this.#node, maxHeight);
+    lib.symbols.YGNodeStyleSetMaxHeightPercent(this.#node, maxHeight);
   }
+
   setMaxWidth(maxWidth: number | string): void {
-    if (typeof maxWidth === "number") {
-      return lib.symbols.YGNodeStyleSetMaxWidth(this.#node, maxWidth);
-    }
-    // else
+    this.#setValueAndUnit("MaxWidth", maxWidth);
   }
+
   setMaxWidthPercent(maxWidth: number): void {
-    return lib.symbols.YGNodeStyleSetMaxWidthPercent(this.#node, maxWidth);
+    lib.symbols.YGNodeStyleSetMaxWidthPercent(this.#node, maxWidth);
   }
 
   setMeasureFunc(
@@ -407,68 +396,55 @@ export class YogaNode {
   }
 
   setMinHeight(minHeight: number | string): void {
-    if (typeof minHeight === "number") {
-      return lib.symbols.YGNodeStyleSetMinHeight(this.#node, minHeight);
-    }
-    // else
+    this.#setValueAndUnit("MinHeight", minHeight);
   }
 
   setMinHeightPercent(minHeight: number): void {
-    return lib.symbols.YGNodeStyleSetMinHeightPercent(this.#node, minHeight);
+    lib.symbols.YGNodeStyleSetMinHeightPercent(this.#node, minHeight);
   }
 
   setMinWidth(minWidth: number | string): void {
-    if (typeof minWidth === "number") {
-      return lib.symbols.YGNodeStyleSetMinWidth(this.#node, minWidth);
-    }
-    // else
+    this.#setValueAndUnit("MinWidth", minWidth);
   }
 
   setMinWidthPercent(minWidth: number): void {
-    return lib.symbols.YGNodeStyleSetMinWidthPercent(this.#node, minWidth);
+    lib.symbols.YGNodeStyleSetMinWidthPercent(this.#node, minWidth);
   }
 
   setOverflow(overflow: C.YogaOverflow): void {
-    return lib.symbols.YGNodeStyleSetOverflow(this.#node, overflow);
+    lib.symbols.YGNodeStyleSetOverflow(this.#node, overflow);
   }
 
   setPadding(edge: C.YogaEdge, padding: number | string): void {
-    if (typeof padding === "number") {
-      return lib.symbols.YGNodeStyleSetPadding(this.#node, edge, padding);
-    }
-    // else
+    this.#setValueAndUnit("Padding", edge, padding);
   }
 
   setPaddingPercent(edge: C.YogaEdge, padding: number): void {
-    return lib.symbols.YGNodeStyleSetPaddingPercent(this.#node, edge, padding);
+    lib.symbols.YGNodeStyleSetPaddingPercent(this.#node, edge, padding);
   }
 
   setPosition(edge: C.YogaEdge, position: number | string): void {
-    if (typeof position === "number") {
-      return lib.symbols.YGNodeStyleSetPosition(this.#node, edge, position);
-    }
-    // else
+    this.#setValueAndUnit("Position", edge, position);
   }
+
   setPositionPercent(edge: C.YogaEdge, position: number): void {
-    return lib.symbols.YGNodeStyleSetPositionPercent(this.#node, edge, position);
+    lib.symbols.YGNodeStyleSetPositionPercent(this.#node, edge, position);
   }
+
   setPositionType(positionType: C.YogaPositionType): void {
-    return lib.symbols.YGNodeStyleSetPositionType(this.#node, positionType);
+    lib.symbols.YGNodeStyleSetPositionType(this.#node, positionType);
   }
 
   setWidth(width: number | string): void {
-    if (typeof width === "number") {
-      return lib.symbols.YGNodeStyleSetWidth(this.#node, width);
-    }
-    // else
+    this.#setValueAndUnit("Width", width);
   }
 
   setWidthAuto(): void {
-    return lib.symbols.YGNodeStyleSetWidthAuto(this.#node);
+    lib.symbols.YGNodeStyleSetWidthAuto(this.#node);
   }
 
   setWidthPercent(width: number): void {
-    return lib.symbols.YGNodeStyleSetWidthPercent(this.#node, width);
+    lib.symbols.YGNodeStyleSetWidthPercent(this.#node, width);
   }
 
   unsetMeasureFunc(): void {
@@ -524,6 +500,51 @@ export class YogaNode {
   getComputedPadding(edge: C.YogaEdge): number {
     return lib.symbols.YGNodeLayoutGetPadding(this.#node, edge);
   }
+
+  #setValueAndUnit(fnName: string, ...args: unknown[]): void {
+    const methods: Record<number, string> = {
+      [C.UNIT_POINT]: `YGNodeStyleSet${fnName}`,
+      [C.UNIT_PERCENT]: `YGNodeStyleSet${fnName}Percent`,
+      [C.UNIT_AUTO]: `YGNodeStyleSet${fnName}Auto`,
+    };
+
+    // We patch all these functions to add support for the following calls:
+    // .setWidth(100) / .setWidth("100%") / .setWidth(.getWidth()) / .setWidth("auto")
+
+    const value = args.pop() as string | number | Value;
+    let unit: C.YogaUnit | number;
+    let asNumber: number | undefined;
+
+    if (typeof value === "number") {
+      unit = C.UNIT_POINT;
+      asNumber = value;
+    } else if (value === "auto") {
+      unit = C.UNIT_AUTO;
+      asNumber = undefined;
+    } else if (value instanceof Value) {
+      unit = value.unit;
+      asNumber = value.valueOf();
+    } else {
+      unit = typeof value === "string" && value.endsWith("%") ? C.UNIT_PERCENT : C.UNIT_POINT;
+      asNumber = parseFloat(value);
+      if (!Number.isNaN(value) && Number.isNaN(asNumber)) {
+        throw new Error(`Invalid value ${value} for set${fnName}`);
+      }
+    }
+
+    if (!methods[unit]) {
+      throw new Error(
+        `Failed to execute "${fnName}": Unsupported unit '${value}'`,
+      );
+    }
+
+    if (asNumber !== undefined) {
+      args.push(asNumber);
+    }
+
+    // deno-lint-ignore ban-types
+    (lib.symbols[methods[unit] as keyof typeof lib.symbols] as Function).call(null, this.#node, ...args);
+  }
 }
 
 export const Node = {
@@ -542,7 +563,7 @@ export const Node = {
   },
 
   destroy(_node: YogaNode): void {
-    // return lib.symbols.YGNodeFree(node.#node);
+    // lib.symbols.YGNodeFree(node.#node);
   },
 };
 
@@ -566,26 +587,26 @@ export class YogaConfig {
     feature: C.YogaExperimentalFeature,
     enabled: boolean,
   ): void {
-    return lib.symbols.YGConfigSetExperimentalFeatureEnabled(this.#config, feature, Number(enabled));
+    lib.symbols.YGConfigSetExperimentalFeatureEnabled(this.#config, feature, Number(enabled));
   }
 
   setPointScaleFactor(factor: number): void {
-    return lib.symbols.YGConfigSetPointScaleFactor(this.#config, factor);
+    lib.symbols.YGConfigSetPointScaleFactor(this.#config, factor);
   }
 
-  free() {
-    return lib.symbols.YGConfigFree(this.#config);
+  free(): void {
+    lib.symbols.YGConfigFree(this.#config);
   }
 }
 
 export const Config = {
-  create() {
+  create(): YogaConfig {
     // deno-lint-ignore no-explicit-any
     return new (YogaConfig as any)(lib.symbols.YGConfigNew());
   },
 
   destroy(config: YogaConfig) {
-    return config.free();
+    config.free();
   },
 };
 
