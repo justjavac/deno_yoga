@@ -354,7 +354,7 @@ export class YogaNode {
   }
 
   setMargin(edge: C.YogaEdge, margin: number | string): void {
-    this.#setValueAndUnit("Margin", edge), margin;
+    this.#setValueAndUnit("Margin", edge, margin);
   }
 
   setMarginAuto(edge: C.YogaEdge): void {
