@@ -149,6 +149,10 @@ export class YogaNode {
     this.free();
   }
 
+  setIsReferenceBaseline(isReferenceBaseline: boolean): void {
+    lib.symbols.YGNodeSetIsReferenceBaseline(this.#node, Number(isReferenceBaseline));
+  }
+
   getAlignContent(): C.YogaAlign {
     return lib.symbols.YGNodeStyleGetAlignContent(this.#node) as C.YogaAlign;
   }
