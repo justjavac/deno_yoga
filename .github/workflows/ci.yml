@@ -26,17 +26,17 @@ jobs:
       - name: Run deno test
         if: matrix.os == 'macOS-latest'
         run: |
-          curl --fail --location --output lib/libyogacore.dylib https://github.com/justjavac/yoga.dll/raw/main/lib/libyogacore.dylib
+          curl --fail --location --output lib/libyogacore.dylib https://github.com/justjavac/yoga.dll/raw/main/libyogacore.dylib
           deno test --allow-ffi --unstable
 
       - name: Run deno test
         if: matrix.os == 'ubuntu-latest'
         run: |
-          curl --fail --location --output lib/libyogacore.so https://github.com/justjavac/yoga.dll/raw/main/lib/libyogacore.so
+          curl --fail --location --output lib/libyogacore.so https://github.com/justjavac/yoga.dll/raw/main/libyogacore.so
           deno test --allow-ffi --unstable
 
-      - name: Run deno test
-        if: matrix.os == 'windows-latest'
-        run: |
-          Invoke-WebRequest https://github.com/justjavac/yoga.dll/raw/main/lib/yogacore.dll -OutFile lib/libyogacore.so -UseBasicParsing
-          deno test --allow-ffi --unstable
+      # - name: Run deno test
+      #   if: matrix.os == 'windows-latest'
+      #   run: |
+      #     Invoke-WebRequest https://github.com/justjavac/yoga.dll/raw/main/yogacore.dll -OutFile lib/libyogacore.so -UseBasicParsing
+      #     deno test --allow-ffi --unstable
