@@ -98,6 +98,7 @@ const lib = Deno.dlopen(getLibPath("yogacore"), {
   YGNodeIsDirty: { parameters: ["pointer"], result: "i32" },
 
   YGNodeCalculateLayout: { parameters: ["pointer", "f32", "f32", "i32"], result: "void" },
+  YGNodeCalculateLayoutWithMagicNAN: { parameters: ["pointer", "f32", "f32", "i32"], result: "void" },
   YGNodeLayoutGetLeft: { parameters: ["pointer"], result: "f32" },
   YGNodeLayoutGetRight: { parameters: ["pointer"], result: "f32" },
   YGNodeLayoutGetTop: { parameters: ["pointer"], result: "f32" },
@@ -474,8 +475,8 @@ export class YogaNode {
     // TODO
   }
 
-  calculateLayout(width = NaN, height = NaN, direction: C.YogaDirection = C.DIRECTION_LTR) {
-    lib.symbols.YGNodeCalculateLayout(this.#node, width, height, direction);
+  calculateLayout(width = C.NAN, height = C.NAN, direction: C.YogaDirection = C.DIRECTION_LTR) {
+    lib.symbols.YGNodeCalculateLayoutWithMagicNAN(this.#node, width, height, direction);
   }
 
   getComputedLeft(): number {
