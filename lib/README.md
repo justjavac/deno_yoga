@@ -11,5 +11,5 @@ include:
 dowload:
 
 ```shell
-curl --fail --location --progress-bar --output lib/libyogacore.dylib https://github.com/justjavac/yoga.dll/raw/main/lib/libyogacore.dylib
+curl --fail --location --progress-bar --output lib/libyogacore.dylib https://github.com/justjavac/yoga.dll/raw/main/libyogacore.dylib
 ```
