@@ -1,21 +1,20 @@
 import { assert } from "./deps.ts";
 import * as Yoga from "../mod.ts";
 
-Deno.test("flex_basis_flex_grow_column", () => {
-  const config = Yoga.Config.create();
-  let root: Yoga.YogaNode | undefined = undefined;
+Deno.test("flex_basis_flex_grow_column", function () {
+  var config = Yoga.Config.create();
 
   try {
-    root = Yoga.Node.create(config);
+    var root = Yoga.Node.create(config);
     root.setWidth(100);
     root.setHeight(100);
 
-    const root_child0 = Yoga.Node.create(config);
+    var root_child0 = Yoga.Node.create(config);
     root_child0.setFlexGrow(1);
     root_child0.setFlexBasis(50);
     root.insertChild(root_child0, 0);
 
-    const root_child1 = Yoga.Node.create(config);
+    var root_child1 = Yoga.Node.create(config);
     root_child1.setFlexGrow(1);
     root.insertChild(root_child1, 1);
     root.calculateLayout(Yoga.UNDEFINED, Yoga.UNDEFINED, Yoga.DIRECTION_LTR);
@@ -107,24 +106,22 @@ Deno.test("flex_basis_flex_grow_column", () => {
     config.free();
   }
 });
-
 Deno.test("flex_shrink_flex_grow_row", function () {
-  const config = Yoga.Config.create();
-  let root: Yoga.YogaNode | undefined = undefined;
+  var config = Yoga.Config.create();
 
   try {
-    root = Yoga.Node.create(config);
+    var root = Yoga.Node.create(config);
     root.setFlexDirection(Yoga.FLEX_DIRECTION_ROW);
     root.setWidth(500);
     root.setHeight(500);
 
-    const root_child0 = Yoga.Node.create(config);
+    var root_child0 = Yoga.Node.create(config);
     root_child0.setFlexShrink(1);
     root_child0.setWidth(500);
     root_child0.setHeight(100);
     root.insertChild(root_child0, 0);
 
-    const root_child1 = Yoga.Node.create(config);
+    var root_child1 = Yoga.Node.create(config);
     root_child1.setFlexShrink(1);
     root_child1.setWidth(500);
     root_child1.setHeight(100);
@@ -133,14 +130,8 @@ Deno.test("flex_shrink_flex_grow_row", function () {
 
     assert(0 === root.getComputedLeft(), "0 === root.getComputedLeft() (" + root.getComputedLeft() + ")");
     assert(0 === root.getComputedTop(), "0 === root.getComputedTop() (" + root.getComputedTop() + ")");
-    assert(
-      500 === root.getComputedWidth(),
-      "500 === root.getComputedWidth() (" + root.getComputedWidth() + ")",
-    );
-    assert(
-      500 === root.getComputedHeight(),
-      "500 === root.getComputedHeight() (" + root.getComputedHeight() + ")",
-    );
+    assert(500 === root.getComputedWidth(), "500 === root.getComputedWidth() (" + root.getComputedWidth() + ")");
+    assert(500 === root.getComputedHeight(), "500 === root.getComputedHeight() (" + root.getComputedHeight() + ")");
 
     assert(
       0 === root_child0.getComputedLeft(),
@@ -180,14 +171,8 @@ Deno.test("flex_shrink_flex_grow_row", function () {
 
     assert(0 === root.getComputedLeft(), "0 === root.getComputedLeft() (" + root.getComputedLeft() + ")");
     assert(0 === root.getComputedTop(), "0 === root.getComputedTop() (" + root.getComputedTop() + ")");
-    assert(
-      500 === root.getComputedWidth(),
-      "500 === root.getComputedWidth() (" + root.getComputedWidth() + ")",
-    );
-    assert(
-      500 === root.getComputedHeight(),
-      "500 === root.getComputedHeight() (" + root.getComputedHeight() + ")",
-    );
+    assert(500 === root.getComputedWidth(), "500 === root.getComputedWidth() (" + root.getComputedWidth() + ")");
+    assert(500 === root.getComputedHeight(), "500 === root.getComputedHeight() (" + root.getComputedHeight() + ")");
 
     assert(
       250 === root_child0.getComputedLeft(),
@@ -230,24 +215,22 @@ Deno.test("flex_shrink_flex_grow_row", function () {
     config.free();
   }
 });
-
 Deno.test("flex_shrink_flex_grow_child_flex_shrink_other_child", function () {
-  const config = Yoga.Config.create();
-  let root: Yoga.YogaNode | undefined = undefined;
+  var config = Yoga.Config.create();
 
   try {
-    root = Yoga.Node.create(config);
+    var root = Yoga.Node.create(config);
     root.setFlexDirection(Yoga.FLEX_DIRECTION_ROW);
     root.setWidth(500);
     root.setHeight(500);
 
-    const root_child0 = Yoga.Node.create(config);
+    var root_child0 = Yoga.Node.create(config);
     root_child0.setFlexShrink(1);
     root_child0.setWidth(500);
     root_child0.setHeight(100);
     root.insertChild(root_child0, 0);
 
-    const root_child1 = Yoga.Node.create(config);
+    var root_child1 = Yoga.Node.create(config);
     root_child1.setFlexGrow(1);
     root_child1.setFlexShrink(1);
     root_child1.setWidth(500);
@@ -257,14 +240,8 @@ Deno.test("flex_shrink_flex_grow_child_flex_shrink_other_child", function () {
 
     assert(0 === root.getComputedLeft(), "0 === root.getComputedLeft() (" + root.getComputedLeft() + ")");
     assert(0 === root.getComputedTop(), "0 === root.getComputedTop() (" + root.getComputedTop() + ")");
-    assert(
-      500 === root.getComputedWidth(),
-      "500 === root.getComputedWidth() (" + root.getComputedWidth() + ")",
-    );
-    assert(
-      500 === root.getComputedHeight(),
-      "500 === root.getComputedHeight() (" + root.getComputedHeight() + ")",
-    );
+    assert(500 === root.getComputedWidth(), "500 === root.getComputedWidth() (" + root.getComputedWidth() + ")");
+    assert(500 === root.getComputedHeight(), "500 === root.getComputedHeight() (" + root.getComputedHeight() + ")");
 
     assert(
       0 === root_child0.getComputedLeft(),
@@ -304,14 +281,8 @@ Deno.test("flex_shrink_flex_grow_child_flex_shrink_other_child", function () {
 
     assert(0 === root.getComputedLeft(), "0 === root.getComputedLeft() (" + root.getComputedLeft() + ")");
     assert(0 === root.getComputedTop(), "0 === root.getComputedTop() (" + root.getComputedTop() + ")");
-    assert(
-      500 === root.getComputedWidth(),
-      "500 === root.getComputedWidth() (" + root.getComputedWidth() + ")",
-    );
-    assert(
-      500 === root.getComputedHeight(),
-      "500 === root.getComputedHeight() (" + root.getComputedHeight() + ")",
-    );
+    assert(500 === root.getComputedWidth(), "500 === root.getComputedWidth() (" + root.getComputedWidth() + ")");
+    assert(500 === root.getComputedHeight(), "500 === root.getComputedHeight() (" + root.getComputedHeight() + ")");
 
     assert(
       250 === root_child0.getComputedLeft(),
@@ -355,35 +326,28 @@ Deno.test("flex_shrink_flex_grow_child_flex_shrink_other_child", function () {
   }
 });
 Deno.test("flex_basis_flex_grow_row", function () {
-  const config = Yoga.Config.create();
-  let root: Yoga.YogaNode | undefined = undefined;
+  var config = Yoga.Config.create();
 
   try {
-    root = Yoga.Node.create(config);
+    var root = Yoga.Node.create(config);
     root.setFlexDirection(Yoga.FLEX_DIRECTION_ROW);
     root.setWidth(100);
     root.setHeight(100);
 
-    const root_child0 = Yoga.Node.create(config);
+    var root_child0 = Yoga.Node.create(config);
     root_child0.setFlexGrow(1);
     root_child0.setFlexBasis(50);
     root.insertChild(root_child0, 0);
 
-    const root_child1 = Yoga.Node.create(config);
+    var root_child1 = Yoga.Node.create(config);
     root_child1.setFlexGrow(1);
     root.insertChild(root_child1, 1);
     root.calculateLayout(Yoga.UNDEFINED, Yoga.UNDEFINED, Yoga.DIRECTION_LTR);
 
     assert(0 === root.getComputedLeft(), "0 === root.getComputedLeft() (" + root.getComputedLeft() + ")");
     assert(0 === root.getComputedTop(), "0 === root.getComputedTop() (" + root.getComputedTop() + ")");
-    assert(
-      100 === root.getComputedWidth(),
-      "100 === root.getComputedWidth() (" + root.getComputedWidth() + ")",
-    );
-    assert(
-      100 === root.getComputedHeight(),
-      "100 === root.getComputedHeight() (" + root.getComputedHeight() + ")",
-    );
+    assert(100 === root.getComputedWidth(), "100 === root.getComputedWidth() (" + root.getComputedWidth() + ")");
+    assert(100 === root.getComputedHeight(), "100 === root.getComputedHeight() (" + root.getComputedHeight() + ")");
 
     assert(
       0 === root_child0.getComputedLeft(),
@@ -423,14 +387,8 @@ Deno.test("flex_basis_flex_grow_row", function () {
 
     assert(0 === root.getComputedLeft(), "0 === root.getComputedLeft() (" + root.getComputedLeft() + ")");
     assert(0 === root.getComputedTop(), "0 === root.getComputedTop() (" + root.getComputedTop() + ")");
-    assert(
-      100 === root.getComputedWidth(),
-      "100 === root.getComputedWidth() (" + root.getComputedWidth() + ")",
-    );
-    assert(
-      100 === root.getComputedHeight(),
-      "100 === root.getComputedHeight() (" + root.getComputedHeight() + ")",
-    );
+    assert(100 === root.getComputedWidth(), "100 === root.getComputedWidth() (" + root.getComputedWidth() + ")");
+    assert(100 === root.getComputedHeight(), "100 === root.getComputedHeight() (" + root.getComputedHeight() + ")");
 
     assert(
       25 === root_child0.getComputedLeft(),
@@ -474,34 +432,27 @@ Deno.test("flex_basis_flex_grow_row", function () {
   }
 });
 Deno.test("flex_basis_flex_shrink_column", function () {
-  const config = Yoga.Config.create();
-  let root: Yoga.YogaNode | undefined = undefined;
+  var config = Yoga.Config.create();
 
   try {
-    root = Yoga.Node.create(config);
+    var root = Yoga.Node.create(config);
     root.setWidth(100);
     root.setHeight(100);
 
-    const root_child0 = Yoga.Node.create(config);
+    var root_child0 = Yoga.Node.create(config);
     root_child0.setFlexShrink(1);
     root_child0.setFlexBasis(100);
     root.insertChild(root_child0, 0);
 
-    const root_child1 = Yoga.Node.create(config);
+    var root_child1 = Yoga.Node.create(config);
     root_child1.setFlexBasis(50);
     root.insertChild(root_child1, 1);
     root.calculateLayout(Yoga.UNDEFINED, Yoga.UNDEFINED, Yoga.DIRECTION_LTR);
 
     assert(0 === root.getComputedLeft(), "0 === root.getComputedLeft() (" + root.getComputedLeft() + ")");
     assert(0 === root.getComputedTop(), "0 === root.getComputedTop() (" + root.getComputedTop() + ")");
-    assert(
-      100 === root.getComputedWidth(),
-      "100 === root.getComputedWidth() (" + root.getComputedWidth() + ")",
-    );
-    assert(
-      100 === root.getComputedHeight(),
-      "100 === root.getComputedHeight() (" + root.getComputedHeight() + ")",
-    );
+    assert(100 === root.getComputedWidth(), "100 === root.getComputedWidth() (" + root.getComputedWidth() + ")");
+    assert(100 === root.getComputedHeight(), "100 === root.getComputedHeight() (" + root.getComputedHeight() + ")");
 
     assert(
       0 === root_child0.getComputedLeft(),
@@ -541,14 +492,8 @@ Deno.test("flex_basis_flex_shrink_column", function () {
 
     assert(0 === root.getComputedLeft(), "0 === root.getComputedLeft() (" + root.getComputedLeft() + ")");
     assert(0 === root.getComputedTop(), "0 === root.getComputedTop() (" + root.getComputedTop() + ")");
-    assert(
-      100 === root.getComputedWidth(),
-      "100 === root.getComputedWidth() (" + root.getComputedWidth() + ")",
-    );
-    assert(
-      100 === root.getComputedHeight(),
-      "100 === root.getComputedHeight() (" + root.getComputedHeight() + ")",
-    );
+    assert(100 === root.getComputedWidth(), "100 === root.getComputedWidth() (" + root.getComputedWidth() + ")");
+    assert(100 === root.getComputedHeight(), "100 === root.getComputedHeight() (" + root.getComputedHeight() + ")");
 
     assert(
       0 === root_child0.getComputedLeft(),
@@ -592,35 +537,28 @@ Deno.test("flex_basis_flex_shrink_column", function () {
   }
 });
 Deno.test("flex_basis_flex_shrink_row", function () {
-  const config = Yoga.Config.create();
-  let root: Yoga.YogaNode | undefined = undefined;
+  var config = Yoga.Config.create();
 
   try {
-    root = Yoga.Node.create(config);
+    var root = Yoga.Node.create(config);
     root.setFlexDirection(Yoga.FLEX_DIRECTION_ROW);
     root.setWidth(100);
     root.setHeight(100);
 
-    const root_child0 = Yoga.Node.create(config);
+    var root_child0 = Yoga.Node.create(config);
     root_child0.setFlexShrink(1);
     root_child0.setFlexBasis(100);
     root.insertChild(root_child0, 0);
 
-    const root_child1 = Yoga.Node.create(config);
+    var root_child1 = Yoga.Node.create(config);
     root_child1.setFlexBasis(50);
     root.insertChild(root_child1, 1);
     root.calculateLayout(Yoga.UNDEFINED, Yoga.UNDEFINED, Yoga.DIRECTION_LTR);
 
     assert(0 === root.getComputedLeft(), "0 === root.getComputedLeft() (" + root.getComputedLeft() + ")");
     assert(0 === root.getComputedTop(), "0 === root.getComputedTop() (" + root.getComputedTop() + ")");
-    assert(
-      100 === root.getComputedWidth(),
-      "100 === root.getComputedWidth() (" + root.getComputedWidth() + ")",
-    );
-    assert(
-      100 === root.getComputedHeight(),
-      "100 === root.getComputedHeight() (" + root.getComputedHeight() + ")",
-    );
+    assert(100 === root.getComputedWidth(), "100 === root.getComputedWidth() (" + root.getComputedWidth() + ")");
+    assert(100 === root.getComputedHeight(), "100 === root.getComputedHeight() (" + root.getComputedHeight() + ")");
 
     assert(
       0 === root_child0.getComputedLeft(),
@@ -660,14 +598,8 @@ Deno.test("flex_basis_flex_shrink_row", function () {
 
     assert(0 === root.getComputedLeft(), "0 === root.getComputedLeft() (" + root.getComputedLeft() + ")");
     assert(0 === root.getComputedTop(), "0 === root.getComputedTop() (" + root.getComputedTop() + ")");
-    assert(
-      100 === root.getComputedWidth(),
-      "100 === root.getComputedWidth() (" + root.getComputedWidth() + ")",
-    );
-    assert(
-      100 === root.getComputedHeight(),
-      "100 === root.getComputedHeight() (" + root.getComputedHeight() + ")",
-    );
+    assert(100 === root.getComputedWidth(), "100 === root.getComputedWidth() (" + root.getComputedWidth() + ")");
+    assert(100 === root.getComputedHeight(), "100 === root.getComputedHeight() (" + root.getComputedHeight() + ")");
 
     assert(
       50 === root_child0.getComputedLeft(),
@@ -711,25 +643,24 @@ Deno.test("flex_basis_flex_shrink_row", function () {
   }
 });
 Deno.test("flex_shrink_to_zero", function () {
-  const config = Yoga.Config.create();
-  let root: Yoga.YogaNode | undefined = undefined;
+  var config = Yoga.Config.create();
 
   try {
-    root = Yoga.Node.create(config);
+    var root = Yoga.Node.create(config);
     root.setHeight(75);
 
-    const root_child0 = Yoga.Node.create(config);
+    var root_child0 = Yoga.Node.create(config);
     root_child0.setWidth(50);
     root_child0.setHeight(50);
     root.insertChild(root_child0, 0);
 
-    const root_child1 = Yoga.Node.create(config);
+    var root_child1 = Yoga.Node.create(config);
     root_child1.setFlexShrink(1);
     root_child1.setWidth(50);
     root_child1.setHeight(50);
     root.insertChild(root_child1, 1);
 
-    const root_child2 = Yoga.Node.create(config);
+    var root_child2 = Yoga.Node.create(config);
     root_child2.setWidth(50);
     root_child2.setHeight(50);
     root.insertChild(root_child2, 2);
@@ -738,10 +669,7 @@ Deno.test("flex_shrink_to_zero", function () {
     assert(0 === root.getComputedLeft(), "0 === root.getComputedLeft() (" + root.getComputedLeft() + ")");
     assert(0 === root.getComputedTop(), "0 === root.getComputedTop() (" + root.getComputedTop() + ")");
     assert(50 === root.getComputedWidth(), "50 === root.getComputedWidth() (" + root.getComputedWidth() + ")");
-    assert(
-      75 === root.getComputedHeight(),
-      "75 === root.getComputedHeight() (" + root.getComputedHeight() + ")",
-    );
+    assert(75 === root.getComputedHeight(), "75 === root.getComputedHeight() (" + root.getComputedHeight() + ")");
 
     assert(
       0 === root_child0.getComputedLeft(),
@@ -799,10 +727,7 @@ Deno.test("flex_shrink_to_zero", function () {
     assert(0 === root.getComputedLeft(), "0 === root.getComputedLeft() (" + root.getComputedLeft() + ")");
     assert(0 === root.getComputedTop(), "0 === root.getComputedTop() (" + root.getComputedTop() + ")");
     assert(50 === root.getComputedWidth(), "50 === root.getComputedWidth() (" + root.getComputedWidth() + ")");
-    assert(
-      75 === root.getComputedHeight(),
-      "75 === root.getComputedHeight() (" + root.getComputedHeight() + ")",
-    );
+    assert(75 === root.getComputedHeight(), "75 === root.getComputedHeight() (" + root.getComputedHeight() + ")");
 
     assert(
       0 === root_child0.getComputedLeft(),
@@ -863,26 +788,25 @@ Deno.test("flex_shrink_to_zero", function () {
   }
 });
 Deno.test("flex_basis_overrides_main_size", function () {
-  const config = Yoga.Config.create();
-  let root: Yoga.YogaNode | undefined = undefined;
+  var config = Yoga.Config.create();
 
   try {
-    root = Yoga.Node.create(config);
+    var root = Yoga.Node.create(config);
     root.setWidth(100);
     root.setHeight(100);
 
-    const root_child0 = Yoga.Node.create(config);
+    var root_child0 = Yoga.Node.create(config);
     root_child0.setFlexGrow(1);
     root_child0.setFlexBasis(50);
     root_child0.setHeight(20);
     root.insertChild(root_child0, 0);
 
-    const root_child1 = Yoga.Node.create(config);
+    var root_child1 = Yoga.Node.create(config);
     root_child1.setFlexGrow(1);
     root_child1.setHeight(10);
     root.insertChild(root_child1, 1);
 
-    const root_child2 = Yoga.Node.create(config);
+    var root_child2 = Yoga.Node.create(config);
     root_child2.setFlexGrow(1);
     root_child2.setHeight(10);
     root.insertChild(root_child2, 2);
@@ -890,14 +814,8 @@ Deno.test("flex_basis_overrides_main_size", function () {
 
     assert(0 === root.getComputedLeft(), "0 === root.getComputedLeft() (" + root.getComputedLeft() + ")");
     assert(0 === root.getComputedTop(), "0 === root.getComputedTop() (" + root.getComputedTop() + ")");
-    assert(
-      100 === root.getComputedWidth(),
-      "100 === root.getComputedWidth() (" + root.getComputedWidth() + ")",
-    );
-    assert(
-      100 === root.getComputedHeight(),
-      "100 === root.getComputedHeight() (" + root.getComputedHeight() + ")",
-    );
+    assert(100 === root.getComputedWidth(), "100 === root.getComputedWidth() (" + root.getComputedWidth() + ")");
+    assert(100 === root.getComputedHeight(), "100 === root.getComputedHeight() (" + root.getComputedHeight() + ")");
 
     assert(
       0 === root_child0.getComputedLeft(),
@@ -954,14 +872,8 @@ Deno.test("flex_basis_overrides_main_size", function () {
 
     assert(0 === root.getComputedLeft(), "0 === root.getComputedLeft() (" + root.getComputedLeft() + ")");
     assert(0 === root.getComputedTop(), "0 === root.getComputedTop() (" + root.getComputedTop() + ")");
-    assert(
-      100 === root.getComputedWidth(),
-      "100 === root.getComputedWidth() (" + root.getComputedWidth() + ")",
-    );
-    assert(
-      100 === root.getComputedHeight(),
-      "100 === root.getComputedHeight() (" + root.getComputedHeight() + ")",
-    );
+    assert(100 === root.getComputedWidth(), "100 === root.getComputedWidth() (" + root.getComputedWidth() + ")");
+    assert(100 === root.getComputedHeight(), "100 === root.getComputedHeight() (" + root.getComputedHeight() + ")");
 
     assert(
       0 === root_child0.getComputedLeft(),
@@ -1022,18 +934,17 @@ Deno.test("flex_basis_overrides_main_size", function () {
   }
 });
 Deno.test("flex_grow_shrink_at_most", function () {
-  const config = Yoga.Config.create();
-  let root: Yoga.YogaNode | undefined = undefined;
+  var config = Yoga.Config.create();
 
   try {
-    root = Yoga.Node.create(config);
+    var root = Yoga.Node.create(config);
     root.setWidth(100);
     root.setHeight(100);
 
-    const root_child0 = Yoga.Node.create(config);
+    var root_child0 = Yoga.Node.create(config);
     root.insertChild(root_child0, 0);
 
-    const root_child0_child0 = Yoga.Node.create(config);
+    var root_child0_child0 = Yoga.Node.create(config);
     root_child0_child0.setFlexGrow(1);
     root_child0_child0.setFlexShrink(1);
     root_child0.insertChild(root_child0_child0, 0);
@@ -1041,14 +952,8 @@ Deno.test("flex_grow_shrink_at_most", function () {
 
     assert(0 === root.getComputedLeft(), "0 === root.getComputedLeft() (" + root.getComputedLeft() + ")");
     assert(0 === root.getComputedTop(), "0 === root.getComputedTop() (" + root.getComputedTop() + ")");
-    assert(
-      100 === root.getComputedWidth(),
-      "100 === root.getComputedWidth() (" + root.getComputedWidth() + ")",
-    );
-    assert(
-      100 === root.getComputedHeight(),
-      "100 === root.getComputedHeight() (" + root.getComputedHeight() + ")",
-    );
+    assert(100 === root.getComputedWidth(), "100 === root.getComputedWidth() (" + root.getComputedWidth() + ")");
+    assert(100 === root.getComputedHeight(), "100 === root.getComputedHeight() (" + root.getComputedHeight() + ")");
 
     assert(
       0 === root_child0.getComputedLeft(),
@@ -1088,14 +993,8 @@ Deno.test("flex_grow_shrink_at_most", function () {
 
     assert(0 === root.getComputedLeft(), "0 === root.getComputedLeft() (" + root.getComputedLeft() + ")");
     assert(0 === root.getComputedTop(), "0 === root.getComputedTop() (" + root.getComputedTop() + ")");
-    assert(
-      100 === root.getComputedWidth(),
-      "100 === root.getComputedWidth() (" + root.getComputedWidth() + ")",
-    );
-    assert(
-      100 === root.getComputedHeight(),
-      "100 === root.getComputedHeight() (" + root.getComputedHeight() + ")",
-    );
+    assert(100 === root.getComputedWidth(), "100 === root.getComputedWidth() (" + root.getComputedWidth() + ")");
+    assert(100 === root.getComputedHeight(), "100 === root.getComputedHeight() (" + root.getComputedHeight() + ")");
 
     assert(
       0 === root_child0.getComputedLeft(),
@@ -1139,38 +1038,31 @@ Deno.test("flex_grow_shrink_at_most", function () {
   }
 });
 Deno.test("flex_grow_less_than_factor_one", function () {
-  const config = Yoga.Config.create();
-  let root: Yoga.YogaNode | undefined = undefined;
+  var config = Yoga.Config.create();
 
   try {
-    root = Yoga.Node.create(config);
+    var root = Yoga.Node.create(config);
     root.setWidth(200);
     root.setHeight(500);
 
-    const root_child0 = Yoga.Node.create(config);
+    var root_child0 = Yoga.Node.create(config);
     root_child0.setFlexGrow(0.2);
     root_child0.setFlexBasis(40);
     root.insertChild(root_child0, 0);
 
-    const root_child1 = Yoga.Node.create(config);
+    var root_child1 = Yoga.Node.create(config);
     root_child1.setFlexGrow(0.2);
     root.insertChild(root_child1, 1);
 
-    const root_child2 = Yoga.Node.create(config);
+    var root_child2 = Yoga.Node.create(config);
     root_child2.setFlexGrow(0.4);
     root.insertChild(root_child2, 2);
     root.calculateLayout(Yoga.UNDEFINED, Yoga.UNDEFINED, Yoga.DIRECTION_LTR);
 
     assert(0 === root.getComputedLeft(), "0 === root.getComputedLeft() (" + root.getComputedLeft() + ")");
     assert(0 === root.getComputedTop(), "0 === root.getComputedTop() (" + root.getComputedTop() + ")");
-    assert(
-      200 === root.getComputedWidth(),
-      "200 === root.getComputedWidth() (" + root.getComputedWidth() + ")",
-    );
-    assert(
-      500 === root.getComputedHeight(),
-      "500 === root.getComputedHeight() (" + root.getComputedHeight() + ")",
-    );
+    assert(200 === root.getComputedWidth(), "200 === root.getComputedWidth() (" + root.getComputedWidth() + ")");
+    assert(500 === root.getComputedHeight(), "500 === root.getComputedHeight() (" + root.getComputedHeight() + ")");
 
     assert(
       0 === root_child0.getComputedLeft(),
@@ -1227,14 +1119,8 @@ Deno.test("flex_grow_less_than_factor_one", function () {
 
     assert(0 === root.getComputedLeft(), "0 === root.getComputedLeft() (" + root.getComputedLeft() + ")");
     assert(0 === root.getComputedTop(), "0 === root.getComputedTop() (" + root.getComputedTop() + ")");
-    assert(
-      200 === root.getComputedWidth(),
-      "200 === root.getComputedWidth() (" + root.getComputedWidth() + ")",
-    );
-    assert(
-      500 === root.getComputedHeight(),
-      "500 === root.getComputedHeight() (" + root.getComputedHeight() + ")",
-    );
+    assert(200 === root.getComputedWidth(), "200 === root.getComputedWidth() (" + root.getComputedWidth() + ")");
+    assert(500 === root.getComputedHeight(), "500 === root.getComputedHeight() (" + root.getComputedHeight() + ")");
 
     assert(
       0 === root_child0.getComputedLeft(),

@@ -2,21 +2,37 @@ export * from "./constants.ts";
 
 import * as C from "./constants.ts";
 import ffi from "./ffi.ts";
-import Layout  from "./Layout.ts";
+import Layout from "./Layout.ts";
 import Value from "./Value.ts";
 
-const nodeContext = new Map<BigInt, YogaNode>();
+const nodeContext = new Map<BigInt, Node>();
 
-export class YogaNode {
+export class Node {
   #node: Deno.UnsafePointer;
 
-  private constructor(config?: YogaConfig) {
+  static create(config?: Config): Node {
+    return config ? new Node(config) : new Node();
+  }
+
+  static createDefault(): Node {
+    return new Node();
+  }
+
+  static createWithConfig(config: Config): Node {
+    return new Node(config);
+  }
+
+  static destroy(node: Node): void {
+    node.free();
+  }
+
+  private constructor(config?: Config) {
     this.#node = config ? ffi.symbols.YGNodeNewWithConfig(config.ptr) : ffi.symbols.YGNodeNew();
     // lib.symbols.YGNodeSetContext(node, new Deno.UnsafePointer(0n));
     nodeContext.set(this.#node.value, this);
   }
 
-  private static fromYGNode(node: Deno.UnsafePointer): YogaNode {
+  private static fromYGNode(node: Deno.UnsafePointer): Node {
     // lib.symbols.YGNodeGetContext(node);
     return nodeContext.get(node.value)!;
   }
@@ -25,7 +41,7 @@ export class YogaNode {
     return this.#node;
   }
 
-  copyStyle(other: YogaNode): void {
+  copyStyle(other: Node): void {
     ffi.symbols.YGNodeCopyStyle(this.#node, other.#node);
   }
 
@@ -64,14 +80,14 @@ export class YogaNode {
     return ffi.symbols.YGNodeStyleGetBorder(this.#node, edge);
   }
 
-  getChild(index: number): YogaNode | null {
+  getChild(index: number): Node | null {
     const ptr = ffi.symbols.YGNodeGetChild(this.#node, index);
 
     if (ptr.value === 0n) {
       return null;
     }
 
-    return YogaNode.fromYGNode(ptr);
+    return Node.fromYGNode(ptr);
   }
 
   getChildCount(): number {
@@ -138,14 +154,14 @@ export class YogaNode {
     return Value.from(ffi.symbols.YGNodeStyleGetPadding(this.#node, edge));
   }
 
-  getParent(): YogaNode | null {
+  getParent(): Node | null {
     const ptr = ffi.symbols.YGNodeGetParent(this.#node);
 
     if (ptr.value === 0n) {
       return null;
     }
 
-    return YogaNode.fromYGNode(ptr);
+    return Node.fromYGNode(ptr);
   }
 
   getPosition(edge: C.YogaEdge): Value {
@@ -160,7 +176,7 @@ export class YogaNode {
     return Value.from(ffi.symbols.YGNodeStyleGetWidth(this.#node));
   }
 
-  insertChild(child: YogaNode, index: number): void {
+  insertChild(child: Node, index: number): void {
     ffi.symbols.YGNodeInsertChild(this.#node, child.#node, index);
   }
 
@@ -172,7 +188,7 @@ export class YogaNode {
     ffi.symbols.YGNodeMarkDirty(this.#node);
   }
 
-  removeChild(child: YogaNode): void {
+  removeChild(child: Node): void {
     ffi.symbols.YGNodeRemoveChild(this.#node, child.#node);
   }
 
@@ -442,28 +458,16 @@ export class YogaNode {
   }
 }
 
-export const Node = {
-  create(config?: YogaConfig): YogaNode {
-    return config ? this.createWithConfig(config) : this.createDefault();
-  },
-
-  createDefault(): YogaNode {
-    // deno-lint-ignore no-explicit-any
-    return new (YogaNode as any)();
-  },
-
-  createWithConfig(config: YogaConfig): YogaNode {
-    // deno-lint-ignore no-explicit-any
-    return new (YogaNode as any)(config);
-  },
-
-  destroy(_node: YogaNode): void {
-    // lib.symbols.YGNodeFree(node.#node);
-  },
-};
-
-export class YogaConfig {
+export class Config {
   #config: Deno.UnsafePointer;
+
+  static create(): Config {
+    return new Config(ffi.symbols.YGConfigNew());
+  }
+
+  static destroy(config: Config) {
+    config.free();
+  }
 
   private constructor(config: Deno.UnsafePointer) {
     this.#config = config;
@@ -493,17 +497,6 @@ export class YogaConfig {
     ffi.symbols.YGConfigFree(this.#config);
   }
 }
-
-export const Config = {
-  create(): YogaConfig {
-    // deno-lint-ignore no-explicit-any
-    return new (YogaConfig as any)(ffi.symbols.YGConfigNew());
-  },
-
-  destroy(config: YogaConfig) {
-    config.free();
-  },
-};
 
 export function getInstanceCount(): number {
   return 1;
