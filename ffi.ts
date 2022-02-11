@@ -3,6 +3,7 @@ import { getLibPath } from "./utils.ts";
 export default Deno.dlopen(
   getLibPath("yogacore"),
   {
+    YGConfigGetInstanceCount: { parameters: [], result: "i32" },
     YGNodeNew: { parameters: [], result: "pointer" },
     YGNodeNewWithConfig: { parameters: ["pointer"], result: "pointer" },
     YGNodeFree: { parameters: ["pointer"], result: "void" },
@@ -15,7 +16,7 @@ export default Deno.dlopen(
     YGConfigFree: { parameters: ["pointer"], result: "void" },
     YGConfigSetExperimentalFeatureEnabled: { parameters: ["pointer", "i32", "i32"], result: "void" },
     YGConfigSetPointScaleFactor: { parameters: ["pointer", "f32"], result: "void" },
-    // YGConfigIsExperimentalFeatureEnabled: { parameters: ["pointer", "i32"], result: "void" },
+    YGConfigIsExperimentalFeatureEnabled: { parameters: ["pointer", "i32"], result: "i32" },
 
     YGNodeCopyStyle: { parameters: ["pointer", "pointer"], result: "void" },
     YGNodeStyleSetPositionType: { parameters: ["pointer", "i32"], result: "void" },

@@ -477,9 +477,8 @@ export class Config {
     return this.#config;
   }
 
-  isExperimentalFeatureEnabled(_feature: C.YogaExperimentalFeature): boolean {
-    // return Boolean(lib.symbols.YGConfigIsExperimentalFeatureEnabled(this.#config, feature));
-    return false;
+  isExperimentalFeatureEnabled(feature: C.YogaExperimentalFeature): boolean {
+    return Boolean(ffi.symbols.YGConfigIsExperimentalFeatureEnabled(this.#config, feature));
   }
 
   setExperimentalFeatureEnabled(
@@ -499,5 +498,5 @@ export class Config {
 }
 
 export function getInstanceCount(): number {
-  return 1;
+  return ffi.symbols.YGConfigGetInstanceCount();
 }
