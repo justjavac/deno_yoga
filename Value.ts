@@ -1,6 +1,6 @@
 import * as C from "./constants.ts";
 
-export class Value {
+export default class Value {
   readonly value: number;
   readonly unit: C.YogaUnit | number;
 

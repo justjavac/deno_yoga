@@ -1,4 +1,4 @@
-export class Layout {
+export default class Layout {
   readonly left: number;
   readonly right: number;
   readonly top: number;
