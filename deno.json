@@ -8,7 +8,7 @@
     "files": {
       "exclude": [
         "tests",
-        "unimpeded"
+        "unimplemented"
       ]
     }
   }

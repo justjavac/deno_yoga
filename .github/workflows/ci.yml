@@ -27,16 +27,16 @@ jobs:
         if: matrix.os == 'macOS-latest'
         run: |
           curl --fail --location --output lib/libyogacore.dylib https://github.com/justjavac/yoga.dll/raw/main/libyogacore.dylib
-          deno test --allow-ffi --unstable
+          deno test --allow-ffi --unstable ./tests
 
       - name: Run deno test
         if: matrix.os == 'ubuntu-latest'
         run: |
           curl --fail --location --output lib/libyogacore.so https://github.com/justjavac/yoga.dll/raw/main/libyogacore.so
-          deno test --allow-ffi --unstable
+          deno test --allow-ffi --unstable ./tests
 
       - name: Run deno test
         if: matrix.os == 'windows-latest'
         run: |
           Invoke-WebRequest https://github.com/justjavac/yoga.dll/raw/main/yogacore.dll -OutFile lib/yogacore.dll -UseBasicParsing
-          deno test --allow-ffi --unstable
+          deno test --allow-ffi --unstable ./tests
